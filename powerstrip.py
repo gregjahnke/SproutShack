@@ -1,0 +1,34 @@
+import os
+import glob
+import time
+import configparser
+
+#config
+config = configparser.ConfigParser()
+config.read('config.ini')
+kp303_power_ip = config['KP303']['power_ip']
+kp303_plug_1 = config['KP303']['plug_1']
+kp303_plug_2 = config['KP303']['plug_2']
+kp303_plug_3 = config['KP303']['plug_3']
+
+#functions
+def setPowerState(power_ip, plug_id, state):
+	if state == "on":
+		os.system('tplink-smarthome-api setPowerState --childId %s %s 1' % (plug_id, power_ip))		
+	elif state == "off":
+		os.system('tplink-smarthome-api setPowerState --childId %s %s 0' % (plug_id, power_ip))		
+
+
+#Main
+setPowerState(kp303_power_ip, kp303_plug_1, "off")
+time.sleep(1)
+setPowerState(kp303_power_ip, kp303_plug_2, "off")
+time.sleep(1)
+setPowerState(kp303_power_ip, kp303_plug_3, "off")
+time.sleep(1)
+setPowerState(kp303_power_ip, kp303_plug_1, "on")
+time.sleep(1)
+setPowerState(kp303_power_ip, kp303_plug_2, "on")
+time.sleep(1)
+setPowerState(kp303_power_ip, kp303_plug_3, "on")
+
